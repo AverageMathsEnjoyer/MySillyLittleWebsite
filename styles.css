@@ -228,3 +228,102 @@ footer {
     overflow: hidden;
     /* prevent overflow from animation */
 }
+
+
+/*the list in the about section*/
+.about-list {
+  padding-left: 1.5rem; /* or 2rem if you want more indent */
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.about-list li {
+  margin-bottom: 0.5rem;
+  line-height: 1.5;
+}
+
+
+
+
+
+/* Funny Elements CSS */
+.banana {
+    position: absolute;
+    top: 2rem;
+    left: 2rem;
+    font-size: 2.5rem;
+    animation: banana-spin 2s infinite linear;
+    z-index: 20;
+}
+
+@keyframes banana-spin {
+    0% { transform: rotate(0deg) scale(1); }
+    50% { transform: rotate(180deg) scale(1.2); }
+    100% { transform: rotate(360deg) scale(1); }
+}
+
+.dancing-duck {
+    position: absolute;
+    top: 5rem;
+    right: 2rem;
+    font-size: 2.5rem;
+    animation: duck-dance 1s infinite alternate;
+    z-index: 20;
+}
+
+@keyframes duck-dance {
+    0% { transform: translateY(0) scaleX(1); }
+    50% { transform: translateY(-20px) scaleX(-1); }
+    100% { transform: translateY(0) scaleX(1); }
+}
+
+.spinning-potato {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 2.5rem;
+    animation: potato-spin 1.5s infinite linear;
+    z-index: 20;
+}
+
+@keyframes potato-spin {
+    0% { transform: translateX(-50%) rotate(0deg); }
+    100% { transform: translateX(-50%) rotate(360deg); }
+}
+
+.rainbow-text {
+    margin-top: 2rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+    background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: rainbow-move 3s infinite linear;
+    text-align: center;
+}
+
+@keyframes rainbow-move {
+    0% { letter-spacing: 0.1em; }
+    50% { letter-spacing: 0.3em; }
+    100% { letter-spacing: 0.1em; }
+}
+
+.surprise-btn {
+    display: block;
+    margin: 2rem auto;
+    padding: 1rem 2rem;
+    font-size: 1.2rem;
+    background: repeating-linear-gradient(45deg, #ffeb3b, #ffeb3b 10px, #f44336 10px, #f44336 20px);
+    color: #222;
+    border: 3px dashed #6c63ff;
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: 0 0 10px #6c63ff;
+    transition: transform 0.2s;
+}
+
+.surprise-btn:hover {
+    transform: scale(1.1) rotate(-5deg);
+    background: repeating-linear-gradient(135deg, #90caf9, #90caf9 10px, #ffeb3b 10px, #ffeb3b 20px);
+}
