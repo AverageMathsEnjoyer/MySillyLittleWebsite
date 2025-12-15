@@ -1,0 +1,329 @@
+/* styles.css */
+
+/* Reset & Base Styles */
+
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    overflow-x: hidden;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f9f9fb;
+    color: #333;
+    line-height: 1.6;
+    scroll-behavior: smooth;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+/* Dark Mode */
+body.dark-mode {
+    background-color: #121212;
+    color: #e0e0e0;
+}
+
+body.dark-mode .section {
+    background-color: #1e1e1e;
+    border-bottom: 1px solid #333;
+}
+
+body.dark-mode .nav {
+    background: #1f1f1f;
+    box-shadow: none;
+}
+
+body.dark-mode .nav a {
+    color: #e0e0e0;
+}
+
+body.dark-mode .nav a:hover {
+    color: #90caf9;
+}
+
+body.dark-mode .skills-grid li {
+    background: #333;
+    color: #fff;
+}
+
+body.dark-mode .project-list li {
+    background: #2c2c2c;
+    border-left-color: #90caf9;
+}
+
+body.dark-mode .social-links a {
+    color: #90caf9;
+}
+
+body.dark-mode footer {
+    background: #000;
+    color: #aaa;
+}
+
+/* Hero Section */
+header.hero {
+    background: linear-gradient(135deg, #6c63ff, #48bfe3);
+    color: white;
+    padding: 6rem 2rem;
+    text-align: center;
+}
+
+header.hero h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+header.hero span {
+    font-weight: bold;
+    color: #fffacd;
+}
+
+header.hero p {
+    font-size: 1.2rem;
+}
+
+/* Navigation */
+.nav {
+    background: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+}
+
+.nav a {
+    color: #333;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.nav a:hover {
+    color: #6c63ff;
+}
+
+/* Sections */
+.section {
+    padding: 4rem 2rem;
+    background: #fff;
+    border-bottom: 1px solid #eee;
+}
+
+.section h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: inherit;
+}
+
+.section p,
+.section li,
+.section a {
+    color: inherit;
+    font-size: 1.1rem;
+}
+
+/* Projects */
+.project-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 2rem;
+}
+
+.project-list li {
+    margin-bottom: 2rem;
+    background: #f0f0fa;
+    padding: 1rem 1.5rem;
+    border-left: 5px solid #6c63ff;
+    border-radius: 5px;
+}
+
+.project-list h3 {
+    margin-bottom: 0.5rem;
+}
+
+/* Skills */
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 1rem;
+    margin-top: 2rem;
+    list-style: none;
+    padding-left: 0;
+}
+
+.skills-grid li {
+    background: #6c63ff;
+    color: white;
+    padding: 0.75rem 1rem;
+    text-align: center;
+    border-radius: 6px;
+    font-weight: bold;
+}
+
+/* Contact */
+.social-links {
+    margin-top: 1rem;
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.social-links a {
+    color: #6c63ff;
+    text-decoration: none;
+    font-weight: 500;
+    transition: transform 0.3s ease;
+}
+
+.social-links a:hover {
+    transform: scale(1.05);
+    text-decoration: underline;
+}
+
+/* Footer */
+footer {
+    background: #333;
+    color: white;
+    text-align: center;
+    padding: 1.5rem 0;
+    font-size: 0.9rem;
+}
+
+/*silly car*/
+.car-container {
+    position: absolute;
+    bottom: -1rem;
+    right: -100px;
+    font-size: 3rem;
+    pointer-events: none;
+    transition: transform 0.1s linear;
+}
+
+
+.hero {
+    position: relative;
+    /* ensure car is positioned relative to header */
+    overflow: hidden;
+    /* prevent overflow from animation */
+}
+
+
+/*the list in the about section*/
+.about-list {
+  padding-left: 1.5rem; /* or 2rem if you want more indent */
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.about-list li {
+  margin-bottom: 0.5rem;
+  line-height: 1.5;
+}
+
+
+
+
+
+/* Funny Elements CSS */
+.banana {
+    position: absolute;
+    top: 2rem;
+    left: 2rem;
+    font-size: 2.5rem;
+    animation: banana-spin 2s infinite linear;
+    z-index: 20;
+}
+
+@keyframes banana-spin {
+    0% { transform: rotate(0deg) scale(1); }
+    50% { transform: rotate(180deg) scale(1.2); }
+    100% { transform: rotate(360deg) scale(1); }
+}
+
+.dancing-duck {
+    position: absolute;
+    top: 5rem;
+    right: 2rem;
+    font-size: 2.5rem;
+    animation: duck-dance 1s infinite alternate;
+    z-index: 20;
+}
+
+@keyframes duck-dance {
+    0% { transform: translateY(0) scaleX(1); }
+    50% { transform: translateY(-20px) scaleX(-1); }
+    100% { transform: translateY(0) scaleX(1); }
+}
+
+.spinning-potato {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 2.5rem;
+    animation: potato-spin 1.5s infinite linear;
+    z-index: 20;
+}
+
+@keyframes potato-spin {
+    0% { transform: translateX(-50%) rotate(0deg); }
+    100% { transform: translateX(-50%) rotate(360deg); }
+}
+
+.rainbow-text {
+    margin-top: 2rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+    background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: rainbow-move 3s infinite linear;
+    text-align: center;
+}
+
+@keyframes rainbow-move {
+    0% { letter-spacing: 0.1em; }
+    50% { letter-spacing: 0.3em; }
+    100% { letter-spacing: 0.1em; }
+}
+
+.surprise-btn {
+    display: block;
+    margin: 2rem auto;
+    padding: 1rem 2rem;
+    font-size: 1.2rem;
+    background: repeating-linear-gradient(45deg, #ffeb3b, #ffeb3b 10px, #f44336 10px, #f44336 20px);
+    color: #222;
+    border: 3px dashed #6c63ff;
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: 0 0 10px #6c63ff;
+    transition: transform 0.2s;
+}
+
+.surprise-btn:hover {
+    transform: scale(1.1) rotate(-5deg);
+    background: repeating-linear-gradient(135deg, #90caf9, #90caf9 10px, #ffeb3b 10px, #ffeb3b 20px);
+}
