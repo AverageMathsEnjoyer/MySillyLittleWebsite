@@ -166,7 +166,7 @@ header.hero p {
 /* Skills */
 .skills-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 1rem;
     margin-top: 2rem;
     list-style: none;
@@ -298,6 +298,7 @@ footer {
     font-weight: bold;
     background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
     animation: rainbow-move 3s infinite linear;
     text-align: center;
@@ -326,4 +327,37 @@ footer {
 .surprise-btn:hover {
     transform: scale(1.1) rotate(-5deg);
     background: repeating-linear-gradient(135deg, #90caf9, #90caf9 10px, #ffeb3b 10px, #ffeb3b 20px);
+}
+
+
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.project-card {
+    text-decoration: none;
+    color: inherit;
+    background: #111;
+    border-radius: 14px;
+    padding: 1.5rem;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.project-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 35px rgba(0,0,0,0.35);
+}
+
+.project-icon {
+    font-size: 2.2rem;
+    margin-bottom: 0.5rem;
+}
+
+.project-card h3 {
+    margin: 0.3rem 0;
+    font-size: 1.25rem;
 }
