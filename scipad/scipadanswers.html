@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scipad Answers</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 500px;
+            width: 100%;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
+            text-align: center;
+        }
+
+        .subtitle {
+            color: #666;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            color: #555;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            color: #333;
+            background-color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        select:hover {
+            border-color: #667eea;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .link-container {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            display: none;
+        }
+
+        .link-container.show {
+            display: block;
+        }
+
+        .link-label {
+            color: #666;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+        .link-box {
+            background: white;
+            padding: 12px;
+            border-radius: 8px;
+            border: 2px solid #e0e0e0;
+            word-break: break-all;
+            font-size: 13px;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!--hellooooooo-->
+    <div class="container">
+        <h1>Scipad Answers</h1>
+        <p class="subtitle">Select your options to get the link</p>
+
+        <div class="form-group">
+            <label for="level">Level</label>
+            <select id="level">
+                <option value="">-- Select Level --</option>
+                <option value="2">Level 2</option>
+                <option value="3">Level 3</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="subject">Subject</label>
+            <select id="subject">
+                <option value="">-- Select Subject --</option>
+                <option value="physics">Physics</option>
+                <option value="chemistry">Chemistry</option>
+                <option value="biology">Biology</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="type">Type</label>
+            <select id="type">
+                <option value="">-- Select Type --</option>
+                <option value="internals">Internals</option>
+                <option value="externals">Externals</option>
+            </select>
+        </div>
+
+        <div class="link-container" id="linkContainer">
+            <div class="link-label">Your Scipad Link:</div>
+            <div class="link-box" id="linkDisplay"></div>
+            <button class="btn" onclick="openLink()">Open Link</button>
+        </div>
+    </div>
+
+    <script>
+        const levelSelect = document.getElementById('level');
+        const subjectSelect = document.getElementById('subject');
+        const typeSelect = document.getElementById('type');
+        const linkContainer = document.getElementById('linkContainer');
+        const linkDisplay = document.getElementById('linkDisplay');
+
+        let currentLink = '';
+
+        function generateLink() {
+            const level = levelSelect.value;
+            const subject = subjectSelect.value;
+            const type = typeSelect.value;
+
+            if (!level || !subject || !type) {
+                linkContainer.classList.remove('show');
+                return;
+            }
+
+            const baseUrl = 'https://cdn.scipad.co.nz/2014%20Answers%20Flip%20book/';
+            let link = '';
+
+            // Special case: L2 Chemistry Externals
+            if (level === '2' && subject === 'chemistry' && type === 'externals') {
+                link = baseUrl + 'New%20chem/Level%202%20Chemistry%20(Externals).html';
+            }
+            // L2 Chemistry Internals
+            else if (level === '2' && subject === 'chemistry' && type === 'internals') {
+                link = baseUrl + 'Level%202%20Chemistry%20(int)/Level%202%20Chemistry%20Internals.html#p=1';
+            }
+            // L2 Physics Externals
+            else if (level === '2' && subject === 'physics' && type === 'externals') {
+                link = baseUrl + 'Level%202%20Physics%20(Externals)/Level%202%20Physics%20(Externals).html#p=1';
+            }
+            // L2 Physics Internals
+            else if (level === '2' && subject === 'physics' && type === 'internals') {
+                link = baseUrl + 'Level%202%20Physics%20(internals)/Level%202%20Physics%20(Internals).html#p=1';
+            }
+            // L2 Biology Externals
+            else if (level === '2' && subject === 'biology' && type === 'externals') {
+                link = baseUrl + 'Level%202%20Biology/Level%202%20Biology%20Externals.html#p=1';
+            }
+            // L2 Biology Internals
+            else if (level === '2' && subject === 'biology' && type === 'internals') {
+                link = baseUrl + 'Level%202%20Biology%20(int)/Level%202%20Biology%20Internals.html#p=1';
+            }
+            // L3 Physics Externals
+            else if (level === '3' && subject === 'physics' && type === 'externals') {
+                link = baseUrl + 'Level%203%20Physics%20(externals)/Level%203%20Physics%20(externals)%20sciPAD.html#p=1';
+            }
+            // L3 Physics Internals
+            else if (level === '3' && subject === 'physics' && type === 'internals') {
+                link = baseUrl + 'Level%203%20Physics%20(internals)/Level%203%20Physics%20(internals).html#p=1';
+            }
+            // L3 Chemistry Externals
+            else if (level === '3' && subject === 'chemistry' && type === 'externals') {
+                link = baseUrl + 'Level%203%20Chemistry/Externals/Level%203%20Chemistry%20(Externals).html';
+            }
+            // L3 Chemistry Internals
+            else if (level === '3' && subject === 'chemistry' && type === 'internals') {
+                link = baseUrl + 'Level%203%20Chemistry/Internals/Level%203%20Chemistry%20Internals.html#p=1';
+            }
+            // L3 Biology Externals
+            else if (level === '3' && subject === 'biology' && type === 'externals') {
+                link = baseUrl + 'Level%203%20Biology%20(externals)/Level%203%20Biology%20(externals).html#p=1';
+            }
+            // L3 Biology Internals
+            else if (level === '3' && subject === 'biology' && type === 'internals') {
+                link = baseUrl + 'Level%203%20Biology%20(internals)/Level%203%20Biology%20(internals).html#p=1';
+            }
+
+            if (link) {
+                currentLink = link;
+                linkDisplay.textContent = link;
+                linkContainer.classList.add('show');
+            }
+        }
+
+        function openLink() {
+            if (currentLink) {
+                window.open(currentLink, '_blank');
+            }
+        }
+
+        levelSelect.addEventListener('change', generateLink);
+        subjectSelect.addEventListener('change', generateLink);
+        typeSelect.addEventListener('change', generateLink);
+    </script>
+</body>
+</html>
