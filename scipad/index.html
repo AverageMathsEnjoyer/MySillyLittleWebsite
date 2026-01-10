@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -46,6 +47,22 @@
 
         .form-group {
             margin-bottom: 25px;
+            overflow: hidden;
+            max-height: 0;
+            opacity: 0;
+            transition: max-height 0.4s ease, opacity 0.3s ease, margin-bottom 0.4s ease;
+        }
+
+        .form-group.visible {
+            max-height: 100px;
+            opacity: 1;
+            margin-bottom: 25px;
+        }
+
+        .form-group.always-visible {
+            max-height: 100px;
+            opacity: 1;
+            margin-bottom: 25px;
         }
 
         label {
@@ -79,15 +96,21 @@
         }
 
         .link-container {
-            margin-top: 30px;
-            padding: 20px;
+            margin-top: 0;
+            padding: 0;
             background: #f8f9fa;
             border-radius: 10px;
-            display: none;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, opacity 0.3s ease, padding 0.4s ease, margin-top 0.4s ease;
         }
 
         .link-container.show {
-            display: block;
+            max-height: 500px;
+            opacity: 1;
+            padding: 20px;
+            margin-top: 30px;
         }
 
         .link-label {
@@ -105,6 +128,13 @@
             font-size: 13px;
             color: #333;
             margin-bottom: 15px;
+        }
+
+        .info-text {
+            color: #666;
+            font-size: 13px;
+            margin-top: 10px;
+            font-style: italic;
         }
 
         .btn {
@@ -130,37 +160,36 @@
         }
     </style>
 </head>
+
 <body>
     <!--hellooooooo-->
     <div class="container">
         <h1>Scipad Answers</h1>
         <p class="subtitle">Select your options to get the link</p>
 
-        <div class="form-group">
+        <div class="form-group always-visible">
             <label for="level">Level</label>
             <select id="level">
                 <option value="">-- Select Level --</option>
+                <option value="9">Year 9</option>
+                <option value="10">Year 10</option>
+                <option value="1">Level 1</option>
                 <option value="2">Level 2</option>
                 <option value="3">Level 3</option>
             </select>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" id="subjectGroup">
             <label for="subject">Subject</label>
             <select id="subject">
                 <option value="">-- Select Subject --</option>
-                <option value="physics">Physics</option>
-                <option value="chemistry">Chemistry</option>
-                <option value="biology">Biology</option>
             </select>
         </div>
 
-        <div class="form-group">
-            <label for="type">Type</label>
+        <div class="form-group" id="typeGroup">
+            <label for="type" id="typeLabel">Type</label>
             <select id="type">
                 <option value="">-- Select Type --</option>
-                <option value="internals">Internals</option>
-                <option value="externals">Externals</option>
             </select>
         </div>
 
@@ -168,6 +197,7 @@
             <div class="link-label">Your Scipad Link:</div>
             <div class="link-box" id="linkDisplay"></div>
             <button class="btn" onclick="openLink()">Open Link</button>
+            <div class="info-text" id="infoText"></div>
         </div>
     </div>
 
@@ -175,17 +205,131 @@
         const levelSelect = document.getElementById('level');
         const subjectSelect = document.getElementById('subject');
         const typeSelect = document.getElementById('type');
+        const subjectGroup = document.getElementById('subjectGroup');
+        const typeGroup = document.getElementById('typeGroup');
+        const typeLabel = document.getElementById('typeLabel');
         const linkContainer = document.getElementById('linkContainer');
         const linkDisplay = document.getElementById('linkDisplay');
+        const infoText = document.getElementById('infoText');
 
         let currentLink = '';
+
+        levelSelect.addEventListener('change', function () {
+            const level = levelSelect.value;
+
+            // Reset everything
+            subjectSelect.innerHTML = '<option value="">-- Select Subject --</option>';
+            typeSelect.innerHTML = '<option value="">-- Select Type --</option>';
+            subjectGroup.classList.remove('visible');
+            typeGroup.classList.remove('visible');
+            typeLabel.textContent = 'Type';
+            linkContainer.classList.remove('show');
+            infoText.textContent = '';
+
+            if (!level) return;
+
+            // Year 9 - show link directly
+            if (level === '9') {
+                currentLink = 'https://cdn.scipad.co.nz/2014%20Answers%20Flip%20book/Year%209%20Answers/Book12014.html#p=1';
+                linkDisplay.textContent = currentLink;
+                infoText.textContent = "Answers for the 'big ideas' books aren't available (I couldn't find them).";
+                linkContainer.classList.add('show');
+                return;
+            }
+
+            // Year 10 - show link directly
+            if (level === '10') {
+                currentLink = 'https://cdn.scipad.co.nz/2014%20Answers%20Flip%20book/Year%2010%20Answers/Year%2010%20%20(Book%202)%20.html#p=1';
+                linkDisplay.textContent = currentLink;
+                infoText.textContent = "Answers for the 'big ideas' books aren't available (I couldn't find them).";
+                linkContainer.classList.add('show');
+                return;
+            }
+
+            // Level 1 - show subject dropdown with five options
+            if (level === '1') {
+                subjectSelect.innerHTML = '<option value="">-- Select Subject --</option><option value="general">Old NCEA General Science</option><option value="chemistry">Chemistry</option><option value="physics">Physics</option><option value="pess">PESS (Physics, Earth and Space Science)</option><option value="cb">CB (Chemistry and Biology)</option>';
+                subjectGroup.classList.add('visible');
+                return;
+            }
+
+            // Level 2 and 3 - show subject dropdown with physics, chemistry, biology
+            if (level === '2' || level === '3') {
+                subjectSelect.innerHTML = '<option value="">-- Select Subject --</option><option value="physics">Physics</option><option value="chemistry">Chemistry</option><option value="biology">Biology</option>';
+                subjectGroup.classList.add('visible');
+            }
+        });
+
+        subjectSelect.addEventListener('change', function () {
+            const level = levelSelect.value;
+            const subject = subjectSelect.value;
+
+            typeSelect.innerHTML = '<option value="">-- Select Type --</option>';
+            typeGroup.classList.remove('visible');
+            typeLabel.textContent = 'Type';
+            linkContainer.classList.remove('show');
+            infoText.textContent = '';
+
+            if (!subject) return;
+
+            // Level 1 General Science - only external option
+            if (level === '1' && subject === 'general') {
+                typeLabel.textContent = 'Type';
+                typeSelect.innerHTML = '<option value="">-- Select Type --</option><option value="external">External</option>';
+                typeGroup.classList.add('visible');
+                return;
+            }
+
+            // Level 1 Chemistry - show standard dropdown
+            if (level === '1' && subject === 'chemistry') {
+                typeLabel.textContent = 'Standard';
+                typeSelect.innerHTML = '<option value="">-- Select Standard --</option><option value="1.5">1.5 Chemical Reactions</option>';
+                typeGroup.classList.add('visible');
+                return;
+            }
+
+            // Level 1 Physics - show standard dropdown
+            if (level === '1' && subject === 'physics') {
+                typeLabel.textContent = 'Standard';
+                typeSelect.innerHTML = '<option value="">-- Select Standard --</option><option value="1.3">1.3 Electricity and Magnetism</option>';
+                typeGroup.classList.add('visible');
+                return;
+            }
+
+            // Level 1 PESS - show standard dropdown
+            if (level === '1' && subject === 'pess') {
+                typeLabel.textContent = 'Standard';
+                typeSelect.innerHTML = '<option value="">-- Select Standard --</option><option value="1.2">1.2 Investigating Physical Phenomena</option><option value="1.3pess">1.3 Earth, Moon and Sun Interactions</option><option value="1.4">1.4 Energy in a Physical System</option>';
+                typeGroup.classList.add('visible');
+                return;
+            }
+
+            // Level 1 CB - show standard dropdown
+            if (level === '1' && subject === 'cb') {
+                typeLabel.textContent = 'Standard';
+                typeSelect.innerHTML = '<option value="">-- Select Standard --</option><option value="1.1">1.1 Microorganisms & the Environment</option><option value="1.2cb">1.2 Chemical Reactions in Context</option><option value="1.3cb">1.3 Genetic Variation</option><option value="1.4cb">1.4 Properties of Chemicals</option>';
+                typeGroup.classList.add('visible');
+                return;
+            }
+
+            // Level 2 and 3 - show internals and externals
+            if (level === '2' || level === '3') {
+                typeLabel.textContent = 'Type';
+                typeSelect.innerHTML = '<option value="">-- Select Type --</option><option value="internals">Internals</option><option value="externals">Externals</option>';
+                typeGroup.classList.add('visible');
+            }
+        });
+
+        typeSelect.addEventListener('change', generateLink);
 
         function generateLink() {
             const level = levelSelect.value;
             const subject = subjectSelect.value;
             const type = typeSelect.value;
 
-            if (!level || !subject || !type) {
+            infoText.textContent = '';
+
+            if (!type) {
                 linkContainer.classList.remove('show');
                 return;
             }
@@ -193,8 +337,49 @@
             const baseUrl = 'https://cdn.scipad.co.nz/2014%20Answers%20Flip%20book/';
             let link = '';
 
+            // Level 1 General Science
+            if (level === '1' && subject === 'general' && type === 'external') {
+                link = baseUrl + 'Year%2011%20Answers/NCEA%20Level%201%202014.html#p=1';
+                infoText.textContent = 'This contains mechanics, acids & bases, and genetic variation, which are old NCEA externals';
+            }
+            // Level 1 Chemistry - 1.5 Chemical Reactions
+            else if (level === '1' && subject === 'chemistry' && type === '1.5') {
+                link = baseUrl + 'Level%201%20Chemistry/C1.5/C1.5%20Reactions.html#p=1';
+            }
+            // Level 1 Physics - 1.3 Electricity and Magnetism
+            else if (level === '1' && subject === 'physics' && type === '1.3') {
+                link = baseUrl + 'Level%201%20Physics/P1.3/P1.3%20Electricity%20and%20Magnetism.html#p=1';
+            }
+            // Level 1 PESS - 1.2 Investigating Physical Phenomena
+            else if (level === '1' && subject === 'pess' && type === '1.2') {
+                link = 'https://scipad.co.nz/answers/PES1.2/PES1.2_answers.html#p=1';
+            }
+            // Level 1 PESS - 1.3 Earth, Moon and Sun Interactions
+            else if (level === '1' && subject === 'pess' && type === '1.3pess') {
+                link = 'https://scipad.co.nz/answers/PES1.3/PES1.3_answers.html#p=1';
+            }
+            // Level 1 PESS - 1.4 Energy in a Physical System
+            else if (level === '1' && subject === 'pess' && type === '1.4') {
+                link = 'https://scipad.co.nz/answers/PES1.4/PES1.4_answers.html#p=1';
+            }
+            // Level 1 CB - 1.1 Microorganisms & the Environment
+            else if (level === '1' && subject === 'cb' && type === '1.1') {
+                link = 'https://scipad.co.nz/answers/CB1.1/CB1.1_answers.html#p=1';
+            }
+            // Level 1 CB - 1.2 Chemical Reactions in Context
+            else if (level === '1' && subject === 'cb' && type === '1.2cb') {
+                link = 'https://scipad.co.nz/answers/CB1.2/CB1.2_answers.html#p=1';
+            }
+            // Level 1 CB - 1.3 Genetic Variation
+            else if (level === '1' && subject === 'cb' && type === '1.3cb') {
+                link = 'https://scipad.co.nz/answers/CB1.3/CB1.3_answers.html#p=1';
+            }
+            // Level 1 CB - 1.4 Properties of Chemicals
+            else if (level === '1' && subject === 'cb' && type === '1.4cb') {
+                link = 'https://scipad.co.nz/answers/CB1.4/CB1.4_answers.html#p=1';
+            }
             // Special case: L2 Chemistry Externals
-            if (level === '2' && subject === 'chemistry' && type === 'externals') {
+            else if (level === '2' && subject === 'chemistry' && type === 'externals') {
                 link = baseUrl + 'New%20chem/Level%202%20Chemistry%20(Externals).html';
             }
             // L2 Chemistry Internals
@@ -254,10 +439,7 @@
                 window.open(currentLink, '_blank');
             }
         }
-
-        levelSelect.addEventListener('change', generateLink);
-        subjectSelect.addEventListener('change', generateLink);
-        typeSelect.addEventListener('change', generateLink);
     </script>
 </body>
+
 </html>
